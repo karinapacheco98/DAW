@@ -1,0 +1,72 @@
+<!doctype html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <script>
+           function recebeJson(str) {
+                console.log(str);
+                if (str.length > 0) {
+                    var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var result = JSON.parse(this.responseText);
+                            console.log(this.responseText);
+                            console.log(result);
+                            var cidade = result.cidades[0];
+                            //document.getElementById("resposta").value = this.responseText;
+                            //document.getElementById("resposta2").innerHTML = this.responseText;
+                            console.log(cidade);
+                            for (i = 0; i < result.cidades.length; i++) {
+                                console.log(result.cidades[i]);
+                            }
+                        }
+                    }
+                    console.log(str.length);
+                    xmlhttp.open("GET", "http://localhost/3DAW/ajax/ajax.php?uf="+str, true);
+                    xmlhttp.send();
+                    console.log(str);
+                } else {
+                    document.getElementById("resposta").value = "";
+                    document.getElementById("resposta2").innerHTML = "";
+                }
+            }
+            
+            function getDados(str) {
+                console.log(str);
+                var xmlhttp = new XMLHttpRequest();
+
+                xmlhttp.onreadystatechange = function() {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            var result2 = document.getElementById("resultado");
+                            result = JSON.parse(this.responseText); 
+
+
+                            console.log(this.responseText);
+                            console.log(result);
+                            console.log(str.length);
+                            var cidade = result.cidades[0];
+                            console.log(cidade);
+                            for (var i = 0; i < result.cidades.length; i++) {
+                                result2.innerHTML = result2.innerHTML + result.cidades[i] + "<br>";
+                                
+                            }
+                        } 
+                    };
+                    //console.log(str.length);
+                    xmlhttp.open("GET", "http://localhost/3DAW/ajax/ajax.php?uf=" + str, true);
+                    xmlhttp.send();
+                    console.log(str);
+            }
+
+        </script>
+    </head>
+    <body>
+        <h3> Estados do Sudeste </h3>
+        <form action="">
+            UF:
+            <input type="text" id="uf" name="uf" onchange="recebeJson(this.value), getDados(this.value)">
+            <br>
+        </form>
+        <p id=resultado> </p>
+    </body>
+</html>
